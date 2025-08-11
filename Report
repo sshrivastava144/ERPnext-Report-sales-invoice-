@@ -44,7 +44,7 @@ SELECT
     (td.target_amount - sii.custom_revenue_amount) AS "Short Fall:Currency:120",
     CASE 
         WHEN sii.custom_revenue_amount > 0 
-        THEN (td.target_amount / sii.custom_revenue_amount) * 100
+        THEN (sii.custom_revenue_amount/td.target_amount ) * 100
         ELSE 0
     END AS "Achievement:Percent:120",
     si.total AS "Invoice Total:Currency:120"
