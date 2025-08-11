@@ -17,3 +17,49 @@ WHERE
     si.docstatus = 1
 ORDER BY
     si.posting_date DESC, sp.name;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT
+    si.name AS "Sales Invoice:Link/Sales Invoice:150",
+    si.posting_date AS "Posting Date:Date:100",
+    sp.name AS "Sales Person:Link/Sales Person:150",
+    sp.parent_sales_person AS "Champion's Name:Link/Sales Person:150",
+    td.target_amount AS "Target Amount:Currency:120",
+    sii.custom_revenue_amount AS "Revenue Amount:Currency:120",
+    (td.target_amount - sii.custom_revenue_amount) AS "Short Fall:Currency:120",
+    CASE 
+        WHEN sii.custom_revenue_amount > 0 
+        THEN (td.target_amount / sii.custom_revenue_amount) * 100
+        ELSE 0
+    END AS "Achievement:Percent:120",
+    si.total AS "Invoice Total:Currency:120"
+FROM
+    `tabSales Invoice` si
+LEFT JOIN
+    `tabSales Team` st ON st.parent = si.name
+LEFT JOIN
+    `tabSales Person` sp ON sp.name = st.sales_person
+LEFT JOIN
+    `tabTarget Detail` td ON td.parent = sp.name
+LEFT JOIN
+    `tabSales Invoice Item` sii ON sii.parent = si.name
+WHERE
+    si.docstatus = 1
+ORDER BY
+    si.posting_date DESC, sp.name;
+
